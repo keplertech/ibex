@@ -27,19 +27,7 @@ These results need naja `main` at commit `c7f04beb` or later. kepler-formal must
    * `cosim/trace.sh` and `cosim/vcd_diff.py` find the first internal signal where the two models diverge.
 3. **Check formally** (`run_sec.sh`): kepler-formal SEC of `ibex_top` against itself.
 
-Self-equivalence cannot find elaboration bugs, because both sides share the same netlist. Step 2 is what found the najaeda bugs listed below. Step 3 measures how much of the design the formal engine can handle.
-
-## najaeda bugs found by this evaluation (all fixed on naja `main`)
-
-Bugs 1–4 produced a wrong netlist with no warning or error. Bug 5 made the netlist differ from run to run. Minimal repros of bugs 1–4 are in `naja_issues/`. Each folder has `t.sv`, an expected-value testbench `tb.cpp` for Verilator, and the wrong netlist najaeda produced before the fix.
-
-| # | Bug | Where it hit Ibex |
-|---|---|---|
-| 1 | An `automatic` function local with a non-constant initializer (`logic a = (p != 2'b11);`) was left undriven. | `ibex_pmp.sv:138`: every PMP check was wrong. |
-| 2 | A bit- or part-select of a `for` loop variable (`i[0]`) was evaluated once and reused in every unrolled iteration. | `ibex_icache.sv:1170-1188`: fetched instructions were corrupted. |
-| 3 | In a continuous `assign`, operands were truncated to the LHS width *before* `>>`, `>>>`, `/` and `%`, contrary to IEEE 1800 §11.6. Example: `assign y9 = cbound_t'(x32 >> sh);`. | `ibex_trvk.sv:310`: wrong CHERIoT revocation-bitmap address. |
-| 4 | `arr[k] = f(arr[k])` on an unpacked array element in `always_comb` read its own result, creating a combinational loop. | `ibex_alu.sv:422` popcount tree (RV32B). |
-| 5 | Non-deterministic elaboration: the same input gave different instance order and net names from run to run. | `ibex_decoder`, `ibex_compressed_decoder`. |
+Self-equivalence cannot find elaboration bugs, because both sides share the same netlist. Step 2 is what checks the elaboration itself. Step 3 measures how much of the design the formal engine can handle.
 
 ## Co-simulation results
 
@@ -93,18 +81,6 @@ cosim/bisect.sh pmp icache       # single-feature co-sim
 ./run_sec.sh my_ot ibex_top_opentitan_noscr_sec.f       # SEC, opentitan without scrambling
 ```
 
-Each repro in `naja_issues/<bug>/` can be checked on its own:
-
-```python
-from najaeda import netlist
-netlist.load_system_verilog(["t.sv"])
-netlist.get_top().dump_verilog("out/t.v")
-```
-
-```sh
-verilator --cc --exe --build --top-module t out/t.v [out/naja_primitives.v] tb.cpp && ./obj_dir/Vt
-```
-
 ## Files
 
 | Path | Content |
@@ -116,4 +92,3 @@ verilator --cc --exe --build --top-module t out/t.v [out/naja_primitives.v] tb.c
 | `naja_load.py` | elaborates one config and writes a summary, hierarchy, diagnostics and Verilog dump to `results/<config>/` |
 | `cosim/` | co-simulation harness generator, build, bisect, trace and VCD-diff scripts |
 | `run_sec.sh` | kepler-formal SEC wrapper; results go to `results/kf/<run>/` |
-| `naja_issues/` | minimal repros of najaeda bugs 1–4 |

@@ -3,8 +3,4 @@ results/
 cosim/build_*/
 cosim/build_*.log
 ibex_top_final_*.f
-naja_issues/*/t_naja.v
-naja_issues/*/naja_primitives.v
-naja_issues/*/out/
-naja_issues/*/obj_dir/
 __pycache__/
