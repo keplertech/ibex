@@ -1,0 +1,2 @@
+-F ibex_top.f
+-GRV32B=2

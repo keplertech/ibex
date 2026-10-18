@@ -1,0 +1,2 @@
+-F ibex_top.f
+-G BaseIsa=ibex_pkg::BaseIsaRV32IorCHERIoT

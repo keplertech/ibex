@@ -1,0 +1,20 @@
+-F ibex_top.f
+-GBaseIsa=1
+-GRV32E=0
+-GRV32M=3
+-GRV32B=2
+-GRV32ZC=3
+-GRegFile=0
+-GBranchTargetALU=1
+-GWritebackStage=1
+-GICache=1
+-GICacheECC=1
+-GICacheScramble=1
+-GBranchPredictor=0
+-GDbgTriggerEn=1
+-GSecureIbex=1
+-GPMPEnable=1
+-GPMPGranularity=0
+-GPMPNumRegions=16
+-GMHPMCounterNum=10
+-GMHPMCounterWidth=32

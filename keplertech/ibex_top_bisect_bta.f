@@ -1,0 +1,2 @@
+-F ibex_top.f
+-G BranchTargetALU=1

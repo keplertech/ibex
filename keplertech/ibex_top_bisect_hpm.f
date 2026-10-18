@@ -1,0 +1,3 @@
+-F ibex_top.f
+-G MHPMCounterNum=10
+-G MHPMCounterWidth=32

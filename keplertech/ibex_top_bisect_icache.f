@@ -1,0 +1,4 @@
+-F ibex_top.f
+-G ICache=1
+-G ICacheECC=1
+-G ICacheScramble=1

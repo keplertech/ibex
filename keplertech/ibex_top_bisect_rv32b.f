@@ -1,0 +1,2 @@
+-F ibex_top.f
+-G RV32B=ibex_pkg::RV32BFull

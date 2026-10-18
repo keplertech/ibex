@@ -1,0 +1,3 @@
+-F ibex_top.f
+-G PMPEnable=1
+-G PMPNumRegions=16

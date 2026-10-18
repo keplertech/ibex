@@ -1,0 +1,3 @@
+-F ibex_top.f
+-GPMPEnable=1
+-GPMPNumRegions=16

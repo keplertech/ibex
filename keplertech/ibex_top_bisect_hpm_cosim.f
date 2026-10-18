@@ -1,0 +1,3 @@
+-F ibex_top.f
+-GMHPMCounterNum=10
+-GMHPMCounterWidth=32

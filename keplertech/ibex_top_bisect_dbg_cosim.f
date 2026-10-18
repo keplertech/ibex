@@ -1,0 +1,2 @@
+-F ibex_top.f
+-GDbgTriggerEn=1

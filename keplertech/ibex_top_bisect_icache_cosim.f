@@ -1,0 +1,4 @@
+-F ibex_top.f
+-GICache=1
+-GICacheECC=1
+-GICacheScramble=1
