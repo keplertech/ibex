@@ -4,3 +4,4 @@ cosim/build_*/
 cosim/build_*.log
 ibex_top_final_*.f
 __pycache__/
+kf_issues/*/work/

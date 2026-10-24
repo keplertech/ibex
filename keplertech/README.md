@@ -1,94 +1,82 @@
-# Ibex with najaeda and kepler-formal
+# Ibex with the naja tools
 
-Status: 2026-10-17. This directory evaluates two open-source tools from [keplertech.io](https://keplertech.io) on Ibex (CHERIoT variant, commit `7a4697f5`):
+Three open-source tools from the [naja](https://github.com/najaeda/naja) ecosystem, run on the unmodified Ibex sources (CHERIoT variant, upstream `a896ef22`):
 
-* **najaeda**: Python netlist API with a slang-based SystemVerilog frontend. It elaborates RTL into a gate-level netlist.
-* **kepler-formal**: equivalence checker. Here it runs sequential equivalence checking (SEC) of `ibex_top` against itself.
+* **[najaeda](https://github.com/najaeda/naja)**: a Python netlist API with a SystemVerilog frontend (slang). It turns the Ibex RTL into a netlist you can query, edit and dump.
+* **[naja-scope](https://github.com/keplertech/naja-scope)**: lets you, or an AI assistant, ask questions of the elaborated design: what drives this signal, what is in this cone, which RTL line does this cell come from.
+* **[kepler-formal](https://github.com/keplertech/kepler-formal)**: an equivalence checker. Sequential equivalence checking (SEC) proves that two versions of a design have the same outputs.
 
-## Summary
+## Results
 
-| | Default `ibex_top` (RV32I) | `opentitan` config (CHERIoT, ICache+ECC+scramble, SecureIbex, PMP×16, RV32B, …) |
+| | Default `ibex_top` | `opentitan` config (CHERIoT, ICache + ECC + scrambling, SecureIbex, PMP×16, RV32B) |
 |---|---|---|
-| najaeda elaboration | OK. 0 errors, 0 unsupported constructs. Loads in 0.5 s. | OK. 0 errors, 0 unsupported constructs. Loads in 2.5 s. |
-| Co-simulation of the najaeda netlist against the RTL (3 seeds × 100k cycles) | **0 mismatches** | **0 mismatches** |
-| Elaboration is deterministic (identical netlists over 5 runs) | yes | yes |
-| kepler-formal SEC, Ibex against itself | **349/428 outputs proved**, the rest inconclusive | **242/428 proved** with ICache scrambling off. With scrambling on, SEC stops on a kepler-formal limitation (K5 below). |
+| najaeda elaboration | 0.5 s, 0 errors, 0 unsupported constructs | 2.4 s, 211k cells, 0 errors, 0 unsupported constructs |
+| najaeda netlist against the RTL in Verilator (3 seeds × 100k cycles) | 0 mismatches | 0 mismatches |
+| kepler-formal SEC | **428/428 outputs proved** in 2 min | **428/428 outputs proved** in 10 min |
 
-These results need naja `main` at commit `c7f04beb` or later. kepler-formal must be built against that naja; the current kepler-formal release bundles an older one.
+No RTL changes, no blackboxes, no skipped outputs. The latch-based clock gate (`prim_clock_gating`) is handled as is. Measured on an 8-core laptop with 16 GB.
 
-## Method
+## A regression flow for Ibex
 
-1. **Elaborate** with najaeda (`naja_load.py <config>`), using the file lists `ibex_top*.f`. Parameter overrides are passed as slang `-G` options.
-2. **Check the elaboration independently** (`cosim/`):
-   * Build the original RTL and najaeda's Verilog dump as two separate Verilator models.
-   * Drive both with the same random stimulus and compare every output on both clock edges.
-   * A single injected gate mutation is caught within a few hundred cycles, so the harness does catch real differences.
-   * `cosim/bisect.sh` turns on one opentitan feature at a time to find which feature causes a mismatch.
-   * `cosim/trace.sh` and `cosim/vcd_diff.py` find the first internal signal where the two models diverge.
-3. **Check formally** (`run_sec.sh`): kepler-formal SEC of `ibex_top` against itself.
+1. **Elaborate** each config with najaeda (`naja_load.py <config>`).
+2. **Check the elaboration** by co-simulation (`cosim/`): the RTL and the najaeda netlist run as two Verilator models with the same random stimulus, and every output is compared on every clock edge.
+3. **Prove** with kepler-formal (`run_sec.sh`). Here each config is compared against itself, which shows the tools handle all of Ibex. The same command compares any two versions, for example before and after an RTL change.
+4. **Explain** any difference with naja-scope: map the netlist cell kepler-formal reports back to an RTL file and line, and trace its cone.
 
-Self-equivalence cannot find elaboration bugs, because both sides share the same netlist. Step 2 is what checks the elaboration itself. Step 3 measures how much of the design the formal engine can handle.
+### Example: from a formal trace to the RTL line
 
-## Co-simulation results
+kepler-formal has an optional binary mode (`--sec-encoding binary`). In that mode it reports a difference on `instr_addr_o[2]` at cycle 3, on Ibex compared with itself. Its trace goes through netlist cells such as `prefetch_buffer_i.#219`. naja-scope maps them to the RTL:
 
-Every repro now gives the correct values. The najaeda netlist matches the RTL in every configuration:
+```python
+from naja_scope import api
+api.load_systemverilog(flist="ibex_top.f", top="ibex_top")
+api.get_source("ibex_top.u_ibex_core.if_stage_i."
+               "ibex_top_u_ibex_core_if_stage_i_gen_prefetch_buffer_prefetch_buffer_i.#219")
+```
 
-| Config | Mismatches (seeds 1–3, 100k cycles each) |
-|---|---|
-| default | 0 / 0 / 0 |
-| + PMP (16 regions) | 0 / 0 / 0 |
-| + ICache (ECC, scramble) | 0 / 0 / 0 |
-| + CHERIoT | 0 / 0 / 0 |
-| + RV32B full | 0 / 0 / 0 |
-| full opentitan | 0 / 0 / 0 |
+```
+../rtl/ibex_prefetch_buffer.sv:163-165
+    always_ff @(posedge clk_i) begin
+      if (stored_addr_en) begin
+        stored_addr_q <= stored_addr_d;
+```
 
-Coverage caveat: the random stimulus exercises instruction fetch heavily in every config. In the full opentitan config it produces very few data-bus transactions (about 50 per 100k cycles), so the data path there is mostly covered by the single-feature configs.
+`stored_addr_q` has no reset, so in binary mode the two copies can start with different values. That is a limitation of kepler-formal's binary mode ([kepler-formal#285](https://github.com/keplertech/kepler-formal/issues/285)), not an Ibex bug. The default mode used for the results above models such registers as unknown (X) and is not affected.
 
-## kepler-formal SEC results
+Through its MCP server, naja-scope answers the same questions in an AI assistant (Claude Code, ChatGPT, …): *"what drives `instr_addr_o`?"* returns the drivers with their RTL lines (`ibex_prefetch_buffer.sv:194-196`, `:265`).
 
-All runs use the defaults: PDR engine, dual-rail steady-state encoding. `ibex_top_*sec.f` replaces the latch-based `prim_clock_gating` with a combinational model in `formal/prim_clock_gating.sv` (see K1).
+## Ibex as a test case for najaeda
 
-| Run | Outputs proved | Time / memory |
-|---|---|---|
-| default (`ibex_top_sec.f`) | **349/428**; the rest inconclusive (K4) | about 245 s CPU, 0.4 GB |
-| opentitan, ICache scrambling off (`ibex_top_opentitan_noscr_sec.f`) | **242/428**; the rest inconclusive (K4), nothing skipped | 760 s, 1.9 GB |
-| opentitan (`ibex_top_opentitan_sec.f`) | stops with an error (K5) | — |
+The co-simulation first found four elaboration bugs in najaeda, plus non-deterministic output. None of them gave a warning. They showed up in `ibex_pmp.sv`, `ibex_icache.sv`, `ibex_trvk.sv` and the RV32B popcount in `ibex_alu.sv`. All are fixed in najaeda ([najaeda/naja#472](https://github.com/najaeda/naja/pull/472)–[#476](https://github.com/najaeda/naja/pull/476)). They were najaeda bugs, not Ibex bugs. Elaboration is now deterministic: 5 runs give identical netlists.
 
-### Open items for kepler-formal
+## Notes
 
-* **K1, latch clock gates:** the generic `prim_clock_gating` is a latch-based clock gate, and SEC treats latches as opaque, so 261 of 428 outputs were skipped. Workaround: `formal/prim_clock_gating.sv`. Native support for clock-gate latches would remove the need for it.
-* **K2, `--set-as-boundary`:** it cannot name the latch inside the clock gate, because najaeda leaves that instance unnamed.
-* **K3, binary encoding with reset** ([kepler-formal#285](https://github.com/keplertech/kepler-formal/issues/285)): `--sec-reset-cycles 2 --sec-reset-port rst_ni=0` reports a counterexample (`instr_addr_o[2]`, k=3) on the design compared with itself, while claiming full coverage. The likely cause is registers without a reset getting independent initial values in the two copies.
-* **K4, inconclusive outputs:** these are the instruction and data bus outputs (address, request, write data, integrity, byte enables, and their lockstep `*_shadow_o` copies), plus `trvk_revbm_*` and the alert outputs. The fetch and data paths contain registers without a reset (e.g. `ibex_prefetch_buffer.sv`, `ibex_fetch_fifo.sv`), which is the likely reason.
-* **K5, read-only memories** ([kepler-formal#286](https://github.com/keplertech/kepler-formal/issues/286)): naja maps constant lookup tables (the PRINCE and `prim_subst_perm` S-boxes used by ICache scrambling) to read-only `naja_mem` cells (no write ports, with init data). There are 108 such cells in the opentitan config. kepler-formal SEC then stops with `Missing SEC variable for memory read-output state`.
+* **What "proved" means:** SEC (default dual-rail mode) proves that the two designs never differ on an output whose value is defined (0 or 1) in both. Registers without a reset start as X.
+* **Self-equivalence cannot find elaboration bugs**, because both sides come from the same netlist. Step 2 is the independent check of the elaboration.
+* **Co-sim coverage:** in the full opentitan config the random stimulus produces few data-bus transactions, so the data path is covered mainly by the single-feature configs (PMP, ICache, CHERIoT, RV32B), which also give 0 mismatches.
 
 ## Reproducing
 
-Requirements:
-* najaeda: naja built from source at commit `c7f04beb` or later, or a release that includes it
-* kepler-formal
-* Verilator ≥ 5
-* a C++20 compiler
+Tools: kepler-formal 0.5.0 (`a669e56`, which builds naja 0.7.31 and the najaeda Python module), naja-scope 0.1.9, Verilator ≥ 5, a C++20 compiler, Python 3.
 
 ```sh
 cd keplertech
-export PYTHONPATH=<najaeda python package dir>  PY=python3  KF=<path>/kepler-formal
+KFB=<kepler-formal>/build/src/bin
+export PYTHONPATH=$KFB:<kepler-formal>/thirdparty/naja/src/najaeda  PY=python3  KF=$KFB/kepler-formal
 
-$PY naja_load.py opentitan       # elaborate; writes results/opentitan/
-cosim/final.sh 100000            # co-sim of all configs above, 3 seeds
-cosim/bisect.sh pmp icache       # single-feature co-sim
-./run_sec.sh my_run ibex_top_sec.f                      # SEC, default config
-./run_sec.sh my_ot ibex_top_opentitan_noscr_sec.f       # SEC, opentitan without scrambling
+$PY naja_load.py opentitan                    # elaborate; writes results/opentitan/
+cosim/final.sh 100000                         # co-sim: default, PMP, ICache, CHERIoT, RV32B, opentitan
+./run_sec.sh default ibex_top.f               # SEC, default config
+./run_sec.sh opentitan ibex_top_opentitan.f   # SEC, opentitan config
 ```
 
-## Files
+Run `run_sec.sh` invocations one at a time.
 
 | Path | Content |
 |---|---|
-| `ibex_top.f`, `ibex_top_opentitan.f` | slang file lists (default config, plus `-G` overrides from `ibex_configs.yaml:opentitan`) |
-| `*_cosim.f` | the same configs with numeric `-G` values, for Verilator |
-| `*_sec.f`, `formal/` | SEC file lists using the latch-free clock-gate model |
-| `ibex_top_bisect_*.f` | single-feature configs (default plus one opentitan parameter group), written by `cosim/bisect.sh` |
-| `naja_load.py` | elaborates one config and writes a summary, hierarchy, diagnostics and Verilog dump to `results/<config>/` |
-| `cosim/` | co-simulation harness generator, build, bisect, trace and VCD-diff scripts |
-| `run_sec.sh` | kepler-formal SEC wrapper; results go to `results/kf/<run>/` |
+| `ibex_top.f`, `ibex_top_opentitan.f` | file lists, with parameter overrides from `ibex_configs.yaml:opentitan` |
+| `ibex_top_bisect_*.f`, `*_cosim.f` | single-feature configs, and the same configs for Verilator |
+| `naja_load.py` | elaborates one config, writes summary, hierarchy, diagnostics and Verilog to `results/<config>/` |
+| `cosim/` | co-simulation harness: build, `final.sh`, `bisect.sh` (one feature at a time), trace and VCD diff |
+| `run_sec.sh` | kepler-formal SEC wrapper, results in `results/kf/<run>/` |
+| `*_sec.f`, `formal/` | older variants with a combinational clock-gate model, no longer needed |
