@@ -1,0 +1,318 @@
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2228] KEPLER FORMAL: Run.
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2261] Input format: SYSTEMVERILOG
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2265] SystemVerilog compilation units: one per file
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2268] Run log: miter_log_0.txt
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:727] Netlist 1: <none>
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:727] Netlist 2: <none>
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2470] Solver: KISSAT
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2471] Verification: sec
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2473] SEC max_k: 32
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2474] SEC engine: pdr
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2475] SEC encoding: dual_rail_steady
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2479] SEC internal relations: learn=true allow_x_equality=true binary_relation_round=true
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2490] Compact mode: disabled
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2491] Skipped PO reports: enabled
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2492] SEC latch abstraction: enabled
+[2026-10-24 14:44:16.368] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2493] SEC data-enabled latch model: enabled
+[2026-10-24 14:44:16.370] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:3163] Parsing systemverilog file(s) for design 1
+2026-10-24 14:44:16,406 [naja] [warning] Slang emitted 158 diagnostic(s) (158 warning(s), 0 error(s)); see 'naja_sv_diagnostics.log'
+2026-10-24 14:44:16,427 [naja] [warning] Only the first occurrence of each SystemVerilog warning code is emitted on the console; all occurrences are written to 'naja_sv_diagnostics.log'
+2026-10-24 14:44:16,427 [naja] [warning] work/before/rtl/ibex_icache.sv:159:43: Memory 'fill_addr_q' was not inferred as naja_mem: written from 4 sequential blocks; using generic sequential lowering
+2026-10-24 14:44:16,591 [naja] [warning] work/before/rtl/ibex_compressed_decoder.sv:225:5: Case comparison operator '===' lowered as 2-state comparison in SNL (X/Z distinction is not preserved)
+2026-10-24 14:44:17,407 [naja] [warning] SystemVerilog diagnostics summary: status=success, slang=158 (warnings=158, errors=0), elaboration_warnings=50 (codes=2), unsupported_warnings=0 (codes=0), unsupported_errors=0 (codes=0); report='naja_sv_diagnostics.log'
+2026-10-24 14:44:17,411 [naja] [info] Found top design: ibex_top
+2026-10-24 14:44:17,411 [naja] [info] Parsing systemverilog file(s) for design 2
+2026-10-24 14:44:17,438 [naja] [warning] Slang emitted 158 diagnostic(s) (158 warning(s), 0 error(s)); see 'naja_sv_diagnostics.log'
+2026-10-24 14:44:17,453 [naja] [warning] Only the first occurrence of each SystemVerilog warning code is emitted on the console; all occurrences are written to 'naja_sv_diagnostics.log'
+2026-10-24 14:44:17,453 [naja] [warning] work/after/rtl/ibex_icache.sv:160:43: Memory 'fill_addr_q' was not inferred as naja_mem: written from 4 sequential blocks; using generic sequential lowering
+2026-10-24 14:44:17,605 [naja] [warning] work/after/rtl/ibex_compressed_decoder.sv:225:5: Case comparison operator '===' lowered as 2-state comparison in SNL (X/Z distinction is not preserved)
+2026-10-24 14:44:18,395 [naja] [warning] SystemVerilog diagnostics summary: status=success, slang=158 (warnings=158, errors=0), elaboration_warnings=50 (codes=2), unsupported_warnings=0 (codes=0), unsupported_errors=0 (codes=0); report='naja_sv_diagnostics.log'
+2026-10-24 14:44:18,397 [naja] [info] Found top design: ibex_top
+[2026-10-24 16:02:50.849] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2543] SEC checked-output coverage: 38.55% (165/428 covered/existing outputs).
+[2026-10-24 16:02:50.850] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2572] SEC skipped observed outputs due to extraction or coverage limitations:
+  - instr_req_o[0]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[2]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[3]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[4]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[5]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[6]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[7]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[8]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[9]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[10]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[11]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[12]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[13]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[14]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[15]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[16]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[17]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[18]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[19]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[20]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[21]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[22]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[23]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[24]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[25]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[26]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[27]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[28]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[29]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[30]: dual-rail PDR steady-state proof was inconclusive
+  - instr_addr_o[31]: dual-rail PDR steady-state proof was inconclusive
+  - data_req_o[0]: dual-rail PDR steady-state proof was inconclusive
+  - data_we_o[0]: dual-rail PDR steady-state proof was inconclusive
+  - data_be_o[0]: dual-rail PDR steady-state proof was inconclusive
+  - data_be_o[1]: dual-rail PDR steady-state proof was inconclusive
+  - data_be_o[2]: dual-rail PDR steady-state proof was inconclusive
+  - data_be_o[3]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[2]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[3]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[4]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[5]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[6]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[7]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[8]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[9]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[10]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[11]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[12]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[13]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[14]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[15]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[16]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[17]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[18]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[19]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[20]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[21]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[22]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[23]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[24]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[25]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[26]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[27]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[28]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[29]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[30]: dual-rail PDR steady-state proof was inconclusive
+  - data_addr_o[31]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[0]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[1]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[2]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[3]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[4]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[5]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[6]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[7]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[8]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[9]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[10]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[11]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[12]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[13]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[14]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[15]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[16]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[17]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[18]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[19]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[20]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[21]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[22]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[23]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[24]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[25]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[26]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[27]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[28]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[29]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[30]: dual-rail PDR steady-state proof was inconclusive
+  - data_wdata_o[31]: dual-rail PDR steady-state proof was inconclusive
+  - scramble_req_o[0]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[0]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[1]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[2]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[3]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[4]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[5]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[6]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[7]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[8]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[9]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[10]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[11]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[12]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[13]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[14]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[15]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[16]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[17]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[18]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[19]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[20]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[21]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[22]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[23]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[24]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[25]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[26]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[27]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[28]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[29]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[30]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[31]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[32]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[33]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[34]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[35]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[36]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[37]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[38]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[39]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[40]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[41]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[42]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[43]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[44]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[45]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[46]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[47]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[48]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[49]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[50]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[51]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[52]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[53]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[54]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[55]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[56]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[57]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[58]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[59]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[60]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[61]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[62]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[63]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[64]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[65]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[66]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[67]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[68]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[69]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[70]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[71]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[72]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[73]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[74]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[75]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[76]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[77]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[78]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[79]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[80]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[81]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[82]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[83]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[84]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[85]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[86]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[87]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[88]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[89]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[90]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[91]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[92]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[93]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[94]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[95]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[97]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[98]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[99]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[100]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[101]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[102]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[103]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[104]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[105]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[106]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[107]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[108]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[109]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[110]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[111]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[112]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[113]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[114]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[115]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[116]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[117]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[118]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[119]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[120]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[121]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[122]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[123]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[124]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[125]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[126]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[127]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[128]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[129]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[130]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[131]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[132]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[133]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[134]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[135]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[136]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[137]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[138]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[139]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[140]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[141]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[142]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[143]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[144]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[145]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[146]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[147]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[148]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[149]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[150]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[151]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[152]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[153]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[154]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[155]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[156]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[157]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[158]: dual-rail PDR steady-state proof was inconclusive
+  - crash_dump_o[159]: dual-rail PDR steady-state proof was inconclusive
+  - double_fault_seen_o[0]: dual-rail PDR steady-state proof was inconclusive
+  - alert_minor_o[0]: dual-rail PDR steady-state proof was inconclusive
+  - alert_major_internal_o[0]: dual-rail PDR steady-state proof was inconclusive
+  - core_sleep_o[0]: dual-rail PDR steady-state proof was inconclusive
+
+[2026-10-24 16:02:50.851] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2634] SEC partially proved equivalence at k = 3: 165/428 outputs proved; remaining outputs are inconclusive.
+[2026-10-24 16:02:50.851] [kepler_formal_main_logger] [warning] [KeplerFormal.cpp:2636] SEC verification did not prove all observed outputs.
+[2026-10-24 16:02:50.851] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2638] SEC partial-proof details: Exact dual-rail PDR proved 165 of 428 observed outputs; remaining outputs are inconclusive
+     4719,50 real      4081,57 user       374,70 sys
+          4958650368  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+            80612244  page reclaims
+                 982  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+              156241  voluntary context switches
+             2012749  involuntary context switches
+      34250829109348  instructions retired
+      13891379496546  cycles elapsed
+         18065930280  peak memory footprint
+exit=1

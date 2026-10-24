@@ -1,0 +1,51 @@
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2228] KEPLER FORMAL: Run.
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2261] Input format: SYSTEMVERILOG
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2265] SystemVerilog compilation units: one per file
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2268] Run log: miter_log_0.txt
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:727] Netlist 1: <none>
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:727] Netlist 2: <none>
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2470] Solver: KISSAT
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2471] Verification: sec
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2473] SEC max_k: 32
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2474] SEC engine: pdr
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2475] SEC encoding: dual_rail_steady
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2479] SEC internal relations: learn=true allow_x_equality=true binary_relation_round=true
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2490] Compact mode: disabled
+[2026-10-24 20:07:49.164] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2491] Skipped PO reports: enabled
+[2026-10-24 20:07:49.165] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2492] SEC latch abstraction: enabled
+[2026-10-24 20:07:49.165] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2493] SEC data-enabled latch model: enabled
+[2026-10-24 20:07:49.165] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:3163] Parsing systemverilog file(s) for design 1
+2026-10-24 20:07:49,197 [naja] [warning] Slang emitted 158 diagnostic(s) (158 warning(s), 0 error(s)); see 'naja_sv_diagnostics.log'
+2026-10-24 20:07:49,215 [naja] [warning] Only the first occurrence of each SystemVerilog warning code is emitted on the console; all occurrences are written to 'naja_sv_diagnostics.log'
+2026-10-24 20:07:49,215 [naja] [warning] ../../../kf_issues/icache_cb361b2b/work/after/rtl/ibex_icache.sv:160:43: Memory 'fill_addr_q' was not inferred as naja_mem: written from 4 sequential blocks; using generic sequential lowering
+2026-10-24 20:07:49,385 [naja] [warning] ../../../kf_issues/icache_cb361b2b/work/after/rtl/ibex_compressed_decoder.sv:225:5: Case comparison operator '===' lowered as 2-state comparison in SNL (X/Z distinction is not preserved)
+2026-10-24 20:07:50,234 [naja] [warning] SystemVerilog diagnostics summary: status=success, slang=158 (warnings=158, errors=0), elaboration_warnings=50 (codes=2), unsupported_warnings=0 (codes=0), unsupported_errors=0 (codes=0); report='naja_sv_diagnostics.log'
+2026-10-24 20:07:50,236 [naja] [info] Found top design: ibex_top
+2026-10-24 20:07:50,236 [naja] [info] Parsing systemverilog file(s) for design 2
+2026-10-24 20:07:50,263 [naja] [warning] Slang emitted 158 diagnostic(s) (158 warning(s), 0 error(s)); see 'naja_sv_diagnostics.log'
+2026-10-24 20:07:50,279 [naja] [warning] Only the first occurrence of each SystemVerilog warning code is emitted on the console; all occurrences are written to 'naja_sv_diagnostics.log'
+2026-10-24 20:07:50,279 [naja] [warning] ../../../kf_issues/icache_cb361b2b/work/after/rtl/ibex_icache.sv:160:43: Memory 'fill_addr_q' was not inferred as naja_mem: written from 4 sequential blocks; using generic sequential lowering
+2026-10-24 20:07:50,438 [naja] [warning] ../../../kf_issues/icache_cb361b2b/work/after/rtl/ibex_compressed_decoder.sv:225:5: Case comparison operator '===' lowered as 2-state comparison in SNL (X/Z distinction is not preserved)
+2026-10-24 20:07:51,254 [naja] [warning] SystemVerilog diagnostics summary: status=success, slang=158 (warnings=158, errors=0), elaboration_warnings=50 (codes=2), unsupported_warnings=0 (codes=0), unsupported_errors=0 (codes=0); report='naja_sv_diagnostics.log'
+2026-10-24 20:07:51,258 [naja] [info] Found top design: ibex_top
+[2026-10-24 20:10:37.234] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2543] SEC checked-output coverage: 100.00% (428/428 covered/existing outputs).
+[2026-10-24 20:10:37.235] [kepler_formal_main_logger] [info] [KeplerFormal.cpp:2614] No binary-defined difference was found. SEC proved equivalence under the dual-rail steady-state abstraction at k = 1.
+      168,22 real       169,37 user         1,06 sys
+          1192017920  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              201266  page reclaims
+                  62  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                  77  voluntary context switches
+               30017  involuntary context switches
+        894583573575  instructions retired
+        535333682110  cycles elapsed
+          1568933544  peak memory footprint
+exit=0

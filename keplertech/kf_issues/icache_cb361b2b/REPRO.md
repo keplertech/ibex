@@ -18,17 +18,34 @@ The change is only visible when the same line is in two ways at once. It is not 
 
 ## Tools
 
-* kepler-formal 0.5.0, commit `a669e569452f5cff9865aad4a4fcb42e16124dd6`
-* naja 0.7.31, commit `538d3f72` (bundled in that kepler-formal build)
+* kepler-formal 0.5.0, commit `a669e569452f5cff9865aad4a4fcb42e16124dd6`, branch `orfs-sec-opt-latch-support`, Release build
+* naja 0.7.31, commit `538d3f72` (kepler-formal submodule `thirdparty/naja`)
 * macOS, 8 cores, 16 GB RAM
 
-## Command
+## Setup
 
 ```sh
-KF=<kepler-formal>/build/src/bin/kepler-formal keplertech/kf_issues/icache_cb361b2b/run.sh
+# kepler-formal: dependencies as in its README, then
+git clone --recurse-submodules -b orfs-sec-opt-latch-support https://github.com/keplertech/kepler-formal.git
+cd kepler-formal && git checkout a669e569 && git submodule update --init --recursive
+mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && make -j
+# binary: kepler-formal/build/src/bin/kepler-formal
+
+# Ibex: a full clone (not --depth 1), because run.sh extracts cb361b2b and its parent from git history
+git clone https://github.com/keplertech/ibex.git
 ```
 
-`run.sh` extracts `rtl/` and `vendor/` of both commits with `git archive` into `work/` and runs:
+## Commands
+
+```sh
+export KF=<kepler-formal>/build/src/bin/kepler-formal
+cd ibex/keplertech/kf_issues/icache_cb361b2b
+./run.sh                  # failing case: before against after (about 80 min)
+./run.sh before-before    # control: before against itself (about 2.5 min)
+./run.sh after-after      # control: after against itself (about 3 min)
+```
+
+`run.sh` extracts `rtl/` and `vendor/` of both commits with `git archive` into `work/` (or `$WORK`). It writes `work/<pair>/sec.log` and runs:
 
 ```sh
 kepler-formal -sv \
@@ -37,7 +54,7 @@ kepler-formal -sv \
   -v sec --report-skipped-pos
 ```
 
-Extra arguments to `run.sh` go to kepler-formal. Defaults in effect: PDR engine, `dual_rail_steady`, max_k 32, KISSAT, `learn=true allow_x_equality=true binary_relation_round=true`, latch abstraction and data-enabled latch model on.
+Arguments after the pair name go to kepler-formal, for example `./run.sh before-after --dump-btor2 eq.btor2 --dump-only`. Defaults in effect: PDR engine, `dual_rail_steady`, max_k 32, KISSAT, `learn=true allow_x_equality=true binary_relation_round=true`, latch abstraction and data-enabled latch model on.
 
 ## Result
 
@@ -64,16 +81,19 @@ exit=1
 
 The peak memory footprint (18.1 GB) is above the machine's RAM, so part of the run time is probably swapping.
 
-## For comparison
+## Control: each version against itself
 
-The same tools prove 428/428 when each Ibex config is compared with itself:
+Same config, same tools and defaults. Each version is compared with itself:
 
-| Run | Result | Time |
-|---|---|---|
-| default `ibex_top.f` against itself | 428/428 | 121 s |
-| opentitan (ICache+ECC+scrambling, …) against itself | 428/428 | 573 s |
+| Run | Result | Time | Max RSS / peak footprint |
+|---|---|---|---|
+| before (`65368a4c`) against itself | **428/428 proved** at k = 1, nothing skipped | 148 s | 1.26 GB / 1.56 GB |
+| after (`cb361b2b`) against itself | **428/428 proved** at k = 1, nothing skipped | 168 s | 1.19 GB / 1.57 GB |
+| before against after | 165/428 proved, 263 inconclusive | 4719 s | 4.96 GB / 18.1 GB |
 
-Not run yet: `ibex_top_bisect_icache.f` against itself. That run would tell whether the difficulty comes from the change or from the ICache config.
+kepler-formal handles each version of the ICache config on its own. The difficulty comes only from comparing the two versions.
+
+Logs of all three runs: [`logs/`](logs/) (`before-after/`, `before-before/`, `after-after/`, each with `sec.log`, which includes the whole kepler-formal log).
 
 ## More detail
 
@@ -92,4 +112,3 @@ A debug log level is only available in config mode (`--config <yaml>` with `log_
 
 To hand over the obligation without the Ibex sources, add `--dump-btor2 equivalence.btor2 --dump-only`. This writes both designs as one BTOR2 transition system and stops before solving.
 
-Logs of the run above: `keplertech/results/kf/kf050_icache_cb361b2b/` (`sec.log`, `miter_log_0.txt`, `boundary_terms.txt`). This directory is gitignored, so the logs are local only.
