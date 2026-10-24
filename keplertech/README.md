@@ -20,7 +20,7 @@ No RTL changes, no blackboxes, no skipped outputs. The latch-based clock gate (`
 
 1. **Elaborate** each config with najaeda (`naja_load.py <config>`).
 2. **Check the elaboration** by co-simulation (`cosim/`): the RTL and the najaeda netlist run as two Verilator models with the same random stimulus, and every output is compared on every clock edge.
-3. **Prove** with kepler-formal (`run_sec.sh`). Here each config is compared against itself, which shows the tools handle all of Ibex. The same command compares any two versions, for example before and after an RTL change.
+3. **Prove** with kepler-formal (`run_sec.sh`). Here each config is compared against itself, which shows the tools handle all of Ibex. The same command compares two versions, for example before and after an RTL change. This is not yet conclusive on Ibex (see the note below).
 4. **Explain** any difference with naja-scope: map the netlist cell kepler-formal reports back to an RTL file and line, and trace its cone.
 
 ### Example: from a formal trace to the RTL line
@@ -45,14 +45,10 @@ api.get_source("ibex_top.u_ibex_core.if_stage_i."
 
 Through its MCP server, naja-scope answers the same questions in an AI assistant (Claude Code, ChatGPT, …): *"what drives `instr_addr_o`?"* returns the drivers with their RTL lines (`ibex_prefetch_buffer.sv:194-196`, `:265`).
 
-## Ibex as a test case for najaeda
-
-The co-simulation first found four elaboration bugs in najaeda, plus non-deterministic output. None of them gave a warning. They showed up in `ibex_pmp.sv`, `ibex_icache.sv`, `ibex_trvk.sv` and the RV32B popcount in `ibex_alu.sv`. All are fixed in najaeda ([najaeda/naja#472](https://github.com/najaeda/naja/pull/472)–[#476](https://github.com/najaeda/naja/pull/476)). They were najaeda bugs, not Ibex bugs. Elaboration is now deterministic: 5 runs give identical netlists.
-
 ## Notes
 
 * **What "proved" means:** SEC (default dual-rail mode) proves that the two designs never differ on an output whose value is defined (0 or 1) in both. Registers without a reset start as X.
-* **Self-equivalence cannot find elaboration bugs**, because both sides come from the same netlist. Step 2 is the independent check of the elaboration.
+* **Comparing two versions is not conclusive yet:** SEC of upstream commit `cb361b2b` (ICache "read only one way on a multi-way hit") against its parent, in the ICache config, proved 165/428 outputs after 79 min. The other 263 are inconclusive: no proof and no counterexample. This is an open kepler-formal limitation; the reproducer is in [`kf_issues/icache_cb361b2b/`](kf_issues/icache_cb361b2b/REPRO.md).
 * **Co-sim coverage:** in the full opentitan config the random stimulus produces few data-bus transactions, so the data path is covered mainly by the single-feature configs (PMP, ICache, CHERIoT, RV32B), which also give 0 mismatches.
 
 ## Reproducing
