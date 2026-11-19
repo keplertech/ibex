@@ -553,6 +553,10 @@ Details of these configuration bits can be found in the RISC-V Debug Specificati
 Note that **ebreaku** and **prv** are accidentally specified as RW in version 0.13.2 of the RISC-V Debug Specification.
 More recent versions of the specification define these fields correctly as WARL.
 
+When Ibex selects **cause**, a halt request takes priority over an execute trigger match.
+Version 0.13.2 of the specification ranks the trigger first.
+More recent versions rank the halt request above the trigger and allow an implementation to rank it lower.
+
 .. _csr-dpc:
 
 Debug PC Register (dpc)
@@ -771,7 +775,8 @@ In CHERIoT mode, the standard ``mtvec`` (0x305) and ``mepc`` (0x341) CSR address
 | 31 | ``mepcc``             | RW    | Machine Exception Program Counter Capability (holds mepc as cap)   |
 +----+-----------------------+-------+--------------------------------------------------------------------+
 
-The following debug-mode SCRs are accessible only in Debug Mode:
+The following debug-mode SCRs are accessible only in Debug Mode.
+They are specific to Ibex and not part of the CHERIoT specification, which does not define Debug Mode (see :ref:`debug-cheriot`):
 
 +----+-----------------------+-------+------------------------------------------------------------------+
 | ID |   Name                | Mode  | Description                                                      |
